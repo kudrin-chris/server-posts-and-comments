@@ -52,3 +52,39 @@ type Query struct {
 
 type Subscription struct {
 }
+
+func (p InputPost) FromInput() Post {
+	return Post{
+		Name:            p.Name,
+		Author:          p.Author,
+		Content:         p.Content,
+		CommentsAllowed: p.CommentsAllowed,
+	}
+}
+func (c InputComment) FromInput() Comment {
+	return Comment{
+		Author:  c.Author,
+		Content: c.Content,
+		Post:    c.Post,
+		ReplyTo: c.ReplyTo,
+	}
+}
+func (p Post) ToGraph() *PostGraph {
+	return &PostGraph{
+		ID:        p.ID,
+		Date: 	   p.Date,
+		Name:      p.Name,
+		Author:    p.Author,
+		Content:   p.Content,
+	}
+}
+
+func ToPostGraph(posts []Post) []*PostGraph {
+	res := make([]*PostGraph, 0, len(posts))
+
+	for _, post := range posts {
+		res = append(res, post.ToGraph())
+	}
+
+	return res
+}
