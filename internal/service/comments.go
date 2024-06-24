@@ -13,12 +13,12 @@ type PostGetter interface {
 func NewCommentsService(getter PostGetter) *CommentsService {
 	return &CommentsService{PostGetter: getter}
 }
-func CreateComment(comment model.Comment) (model.Comment, error) {
+func (c CommentsService) CreateComment(comment model.Comment) (model.Comment, error) {
 	return model.Comment{}, nil
 }
-func GetCommentsByPost(postId int, page *int, pageSize *int) ([]*model.Comment, error) {
+func (c CommentsService) GetCommentsByPost(postId int, limit int) ([]*model.Comment, error) {
 	return nil, nil
 }
-func GetRepliesOfComment(commentId int) ([]*model.Comment, error) {
+func (c CommentsService) GetRepliesOfComment(commentId int) ([]*model.Comment, error) {
 	return nil, nil
 }

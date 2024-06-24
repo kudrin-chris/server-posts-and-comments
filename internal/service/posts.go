@@ -14,12 +14,12 @@ func NewPostsServices(posts Posts, comments Comments) *PostsServices {
 	}
 }
 
-func CreatePost(post model.Post) (model.Post, error) {
+func (p PostsServices) CreatePost(post model.Post) (model.Post, error) {
 	return model.Post{}, nil
 }
-func GetPostById(id int) (model.Post, error) {
+func (p PostsServices) GetPostById(id int) (model.Post, error) {
 	return model.Post{}, nil
 }
-func GetAllPosts(page, pageSize *int) ([]model.Post, error) {
+func (p PostsServices) GetAllPosts(limit int) ([]model.Post, error) {
 	return []model.Post{}, nil
 }

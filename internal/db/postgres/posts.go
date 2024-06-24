@@ -38,7 +38,7 @@ func (p PostsPostgres) GetAllPosts(limit int) ([]model.Post, error) {
 	}
 	return posts, nil
 }
-func (p PostsPostgres) GetPostByID(id int) (model.Post, error) {
+func (p PostsPostgres) GetPostById(id int) (model.Post, error) {
 
 	sqlText := "SELECT * FROM post WHERE id = " + strconv.Itoa(id)
 

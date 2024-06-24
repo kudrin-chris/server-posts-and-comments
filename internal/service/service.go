@@ -11,19 +11,22 @@ type Services struct {
 
 func NewServices(posts Posts, comments Comments) *Services {
 	return &Services{
-		Posts:    NewPostsService(posts, comments),
-		Comments: NewCommentsService(),
+		Posts: NewPostsServices(posts, comments),
+		Comments: NewCommentsService(PostsServices{
+			Posts:    posts,
+			Comments: comments,
+		}),
 	}
 }
 
 type Posts interface {
 	CreatePost(post model.Post) (model.Post, error)
 	GetPostById(id int) (model.Post, error)
-	GetAllPosts(page, pageSize *int) ([]model.Post, error)
+	GetAllPosts(limit int) ([]model.Post, error)
 }
 
 type Comments interface {
 	CreateComment(comment model.Comment) (model.Comment, error)
-	GetCommentsByPost(postId int, page *int, pageSize *int) ([]*model.Comment, error)
+	GetCommentsByPost(postId int, limit int) ([]*model.Comment, error)
 	GetRepliesOfComment(commentId int) ([]*model.Comment, error)
 }

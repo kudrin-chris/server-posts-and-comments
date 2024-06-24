@@ -37,7 +37,6 @@ func main() {
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
 		PostsService:    services.Posts,
 		CommentsService: services.Comments,
-		//CommentsObservers: graphql.NewCommentsObserver(),
 	}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
