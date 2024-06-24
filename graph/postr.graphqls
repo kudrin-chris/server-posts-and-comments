@@ -23,7 +23,7 @@ input InputPost{
 }
 
 type Query{
-    GetAllPosts(page: Int, pageSize: Int): [PostGraph!]!
+    GetAllPosts(page: Int): [PostGraph!]!
     GetPostById(id: Int!): Post!
 }
 

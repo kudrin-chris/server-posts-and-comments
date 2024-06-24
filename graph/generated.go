@@ -66,7 +66,7 @@ type ComplexityRoot struct {
 
 	Post struct {
 		Author          func(childComplexity int) int
-		Comments        func(childComplexity int, page *int, pageSize *int) int
+		Comments        func(childComplexity int, page *int) int
 		CommentsAllowed func(childComplexity int) int
 		Content         func(childComplexity int) int
 		Date            func(childComplexity int) int
@@ -83,7 +83,7 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		GetAllPosts func(childComplexity int, page *int, pageSize *int) int
+		GetAllPosts func(childComplexity int, page *int) int
 		GetPostByID func(childComplexity int, id int) int
 	}
 
@@ -97,7 +97,7 @@ type MutationResolver interface {
 	CreateComment(ctx context.Context, input model.InputComment) (*model.Comment, error)
 }
 type QueryResolver interface {
-	GetAllPosts(ctx context.Context, page *int, pageSize *int) ([]*model.PostGraph, error)
+	GetAllPosts(ctx context.Context, page *int) ([]*model.PostGraph, error)
 	GetPostByID(ctx context.Context, id int) (*model.Post, error)
 }
 type SubscriptionResolver interface {
@@ -213,7 +213,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Post.Comments(childComplexity, args["page"].(*int), args["pageSize"].(*int)), true
+		return e.complexity.Post.Comments(childComplexity, args["page"].(*int)), true
 
 	case "Post.commentsAllowed":
 		if e.complexity.Post.CommentsAllowed == nil {
@@ -295,7 +295,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.GetAllPosts(childComplexity, args["page"].(*int), args["pageSize"].(*int)), true
+		return e.complexity.Query.GetAllPosts(childComplexity, args["page"].(*int)), true
 
 	case "Query.GetPostById":
 		if e.complexity.Query.GetPostByID == nil {
@@ -507,15 +507,7 @@ func (ec *executionContext) field_Post_comments_args(ctx context.Context, rawArg
 		}
 	}
 	args["page"] = arg0
-	var arg1 *int
-	if tmp, ok := rawArgs["pageSize"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("pageSize"))
-		arg1, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["pageSize"] = arg1
+	
 	return args, nil
 }
 
@@ -531,15 +523,6 @@ func (ec *executionContext) field_Query_GetAllPosts_args(ctx context.Context, ra
 		}
 	}
 	args["page"] = arg0
-	var arg1 *int
-	if tmp, ok := rawArgs["pageSize"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("pageSize"))
-		arg1, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["pageSize"] = arg1
 	return args, nil
 }
 
@@ -1648,7 +1631,7 @@ func (ec *executionContext) _Query_GetAllPosts(ctx context.Context, field graphq
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().GetAllPosts(rctx, fc.Args["page"].(*int), fc.Args["pageSize"].(*int))
+		return ec.resolvers.Query().GetAllPosts(rctx, fc.Args["page"].(*int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
