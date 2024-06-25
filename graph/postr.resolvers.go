@@ -12,7 +12,11 @@ import (
 
 // CreatePost is the resolver for the CreatePost field.
 func (r *mutationResolver) CreatePost(ctx context.Context, post model.InputPost) (*model.PostGraph, error) {
-	panic(fmt.Errorf("not implemented: CreatePost - CreatePost"))
+	newPost, err := r.PostsService.CreatePost(post.FromInput())
+	if err != nil {
+		panic(err)
+	}
+	return newPost.ToGraph(), nil
 }
 
 // GetAllPosts is the resolver for the GetAllPosts field.
