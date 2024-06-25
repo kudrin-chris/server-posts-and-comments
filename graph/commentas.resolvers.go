@@ -6,7 +6,6 @@ package graph
 
 import (
 	"context"
-	"fmt"
 	"server/graph/model"
 )
 
@@ -21,7 +20,8 @@ func (r *mutationResolver) CreateComment(ctx context.Context, input model.InputC
 
 // CommentsSubscription is the resolver for the CommentsSubscription field.
 func (r *subscriptionResolver) CommentsSubscription(ctx context.Context, postID string) (<-chan *model.Comment, error) {
-	panic(fmt.Errorf("not implemented: CommentsSubscription - CommentsSubscription"))
+
+	return nil, nil
 }
 
 // Subscription returns SubscriptionResolver implementation.

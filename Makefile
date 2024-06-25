@@ -4,5 +4,5 @@ build:
 
 .DEFAULT_GOAL := build
 
-//goose up
-//goose down
+#goose up
+#goose down
