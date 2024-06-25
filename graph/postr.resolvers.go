@@ -21,7 +21,11 @@ func (r *mutationResolver) CreatePost(ctx context.Context, post model.InputPost)
 
 // GetAllPosts is the resolver for the GetAllPosts field.
 func (r *queryResolver) GetAllPosts(ctx context.Context, page *int) ([]*model.PostGraph, error) {
-	panic(fmt.Errorf("not implemented: GetAllPosts - GetAllPosts"))
+	posts, err := r.PostsService.GetAllPosts(*page)
+	if err != nil {
+		panic(err)
+	}
+	return model.ToPostGraph(posts), nil
 }
 
 // GetPostByID is the resolver for the GetPostById field.
