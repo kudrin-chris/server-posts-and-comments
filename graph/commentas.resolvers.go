@@ -12,7 +12,11 @@ import (
 
 // CreateComment is the resolver for the CreateComment field.
 func (r *mutationResolver) CreateComment(ctx context.Context, input model.InputComment) (*model.Comment, error) {
-	panic(fmt.Errorf("not implemented: CreateComment - CreateComment"))
+	newComment, err := r.CommentsService.CreateComment(input.FromInput())
+	if err != nil {
+		panic(err)
+	}
+	return &newComment, nil
 }
 
 // CommentsSubscription is the resolver for the CommentsSubscription field.
