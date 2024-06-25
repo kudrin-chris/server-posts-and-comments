@@ -42,9 +42,7 @@ services:
     command: ["goose", "internal/db/migrations",  "GOOSE_DBSTRING=postgresql://postgres:password@127.0.0.1/go_migrations?sslmode=disable", "up" ]
     depends_on:
       postgres:
-        condition: service_healthy
-    networks:
-      - posts_net
+        condition: service
 
 
 
