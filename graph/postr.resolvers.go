@@ -6,7 +6,6 @@ package graph
 
 import (
 	"context"
-	"fmt"
 	"server/graph/model"
 )
 
@@ -30,7 +29,11 @@ func (r *queryResolver) GetAllPosts(ctx context.Context, page *int) ([]*model.Po
 
 // GetPostByID is the resolver for the GetPostById field.
 func (r *queryResolver) GetPostByID(ctx context.Context, id int) (*model.Post, error) {
-	panic(fmt.Errorf("not implemented: GetPostByID - GetPostById"))
+	post, err := r.PostsService.GetPostById(id)
+	if err != nil {
+		panic(err)
+	}
+	return &post, nil
 }
 
 // Mutation returns MutationResolver implementation.
